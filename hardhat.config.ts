@@ -52,6 +52,12 @@ const config: HardhatUserConfig = {
       url: process.env.ARBITRUM_GOERLI_URL,
       accounts: process.env.REPOSITORY_DEPLOYER !== undefined ? [process.env.REPOSITORY_DEPLOYER] : [],
     },
+    baseGoerli: {
+      chainId: 84531,
+      url: process.env.BASE_GOERLI_URL || 'https://goerli.base.org',
+      accounts: process.env.REPOSITORY_DEPLOYER !== undefined ? [process.env.REPOSITORY_DEPLOYER] : [],
+      gasPrice: 20000000,
+    },
     polygon: {
       url: process.env.POLYGON_URL,
       accounts: process.env.REPOSITORY_DEPLOYER !== undefined ? [process.env.REPOSITORY_DEPLOYER] : [],
@@ -81,12 +87,21 @@ const config: HardhatUserConfig = {
       moonbaseAlpha: process.env.MOONBEAM_MOONSCAN_APIKEY || "",
       moonriver: process.env.MOONRIVER_MOONSCAN_APIKEY || "",
       arbitrumGoerli: process.env.ARBITRUM_ARBISCAN_APIKEY || "",
+      baseGoerli: process.env.BASE_BASESCAN_APIKEY || "",
       polygon: process.env.POLYGON_ETHERSCAN_API_KEY || "",
       mainnet: process.env.MAINNET_ETHERSCAN_API_KEY || "",
       moonbeam: process.env.MOONBEAM_MOONSCAN_APIKEY || "",
       base: process.env.BASE_BASESCAN_APIKEY || "",
     },
     customChains: [
+      {
+        network: "baseGoerli",
+        chainId: 84531,
+        urls: {
+          apiURL: "https://api-goerli.basescan.org/api",
+          browserURL: "https://goerli.basescan.org"
+        }
+      },
       {
         network: "base",
         chainId: 8453,

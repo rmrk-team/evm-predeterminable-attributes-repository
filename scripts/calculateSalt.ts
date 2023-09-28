@@ -18,7 +18,7 @@ async function main() {
 
     const DeployProxy = await ethers.getContractFactory("DeployProxy");
     const deployProxy = await DeployProxy.connect(deployer).deploy(); // Used for the networks where the deploy proxy is not deployed to
-    // const deployProxy = DeployProxy.attach('0xe68fe566f9585c08F0123F92f111F6a3c00f6660'); // Used for the networks where the deploy proxy is already deployed to
+    // const deployProxy = DeployProxy.attach('0x91C3e47998f91929a0ADCA8A7301abc18C24d6B5'); // Used for the networks where the deploy proxy is already deployed to
 
     await deployProxy.deployed();
     console.log(`DeployProxy deployed to: ${deployProxy.address}`);
@@ -29,16 +29,16 @@ async function main() {
 
     // // This is used to find the saltHex that will generate the create2 address that starts with 0xA77B75
     let saltHex = ethers.utils.id("0");
-    // // i used to generate the saltHex resulting in 0xA77B75d87e29F0DA32b27566A375574Efc193cD5 is 7801454
+    // // i used to generate the saltHex resulting in 0xA77b75D5fDEC6E6e8E00e05c707a7CA81a3F9f4a is 220555452
     // // The saltHex is generated using ethers.utils.id(i.toString())
-    // // The saltHex is 0xaac49629c7d45e9387df9a6bf21aacf972f60c8650ed9ce4a4da9477f6321097
-    for(let i = 0; i < 1000000000; i++) {
+    // // The saltHex is 0xed6d22acfc436487ae9db9412ff6ba59f7dfc778f647f18c9cbfa5f71ab85718
+    for(let i = 200000000; i < 1000000000; i++) {
         // console.log(`Salt: ${saltHex}`);
         const create2Addr = await create2Address(deployProxy.address, saltHex, initCode);
         // console.log(`Precomputed create2 Address: ${create2Addr}`);
         console.log(`i is: ${i}`);
         console.log(create2Addr.slice(2, 8));
-        if(create2Addr.slice(2, 8) === "A77B75"){
+        if(create2Addr.slice(2, 8).toUpperCase() === "A77B75"){
             console.log("Found!");
             console.log(`Salt: ${saltHex}`);
             console.log(`Precomputed create2 Address: ${create2Addr}`);
@@ -48,7 +48,7 @@ async function main() {
         saltHex = ethers.utils.id((i + 1).toString());
     }
 
-    // const saltHex = ethers.utils.id("7801454");
+    // const saltHex = ethers.utils.id("220555452");
 
     const repositoryDeploy = await deployProxy.connect(deployer).deployContract(initCode, saltHex);
     const transactionReceipt = await repositoryDeploy.wait();

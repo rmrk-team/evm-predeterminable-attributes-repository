@@ -74,12 +74,6 @@ contract AttributesRepository is IERC7508 {
     mapping(address collection => mapping(uint256 tokenId => mapping(uint256 boolKeyId => bool boolValue)))
         private _boolValues;
 
-    /**
-     * @notice Struct representing issuer setting for a collection.
-     * @param registered A boolean value signifying if the collection is registered 
-     * @param useOwnable A boolean value signifying if the collection uses the Ownable pattern
-     * @param issuer The address of the issuer of the collection
-     */
     struct IssuerSetting {
         bool registered;
         bool useOwnable;

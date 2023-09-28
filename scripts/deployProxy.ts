@@ -15,21 +15,21 @@ async function main() {
 
     const DeployProxy = await ethers.getContractFactory("DeployProxy");
     const deployProxy = await DeployProxy.connect(deployer).deploy(); // Used for the networks where the deploy proxy is not deployed to
-    // const deployProxy = DeployProxy.attach('0xe68fe566f9585c08F0123F92f111F6a3c00f6660'); // Used for the networks where the deploy proxy is already deployed to
+    // const deployProxy = DeployProxy.attach('0x91C3e47998f91929a0ADCA8A7301abc18C24d6B5'); // Used for the networks where the deploy proxy is already deployed to
 
     await deployProxy.deployed();
     console.log(`DeployProxy deployed to: ${deployProxy.address}`);
 
     const initCode = bytecode;
 
-    const saltHex = ethers.utils.id("7801454");
+    const saltHex = ethers.utils.id("220555452");
 
     const repositoryDeploy = await deployProxy.connect(deployer).deployContract(initCode, saltHex);
     const transactionReceipt = await repositoryDeploy.wait();
 
     const repositoryAddress = transactionReceipt.events[0].args[0];
 
-    console.log(`Deployed EmoteRepository to: ${repositoryAddress}`);
+    console.log(`Deployed AttributesRepository to: ${repositoryAddress}`);
 
     await delay(60000);
 
